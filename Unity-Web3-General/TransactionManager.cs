@@ -40,7 +40,7 @@ public class TransactionManager : MonoBehaviour
         }
     }
 
-    /// CUSTOM TRANSACTIONS
+    /// CUSTOM CONTRACT READ/WRITE ///
 
     public async Task<string> ReadContract(Transaction transaction, Contract contract, string args = "[]")
     {
@@ -72,7 +72,7 @@ public class TransactionManager : MonoBehaviour
         return response;
     }
 
-    /// ERC721 TRANSACTIONS
+    /// ERC721 TRANSACTIONS ///
 
     public async Task<string> ERC721_GetNfts(Transaction transaction, Contract contract = Contract.PolygonTestnet, int first = 500, int skip = 0)
     {
@@ -105,6 +105,46 @@ public class TransactionManager : MonoBehaviour
         ContractInfo info = new ContractInfo(contract);
         // ERC721.BalanceOf
         int balance = await ERC721.BalanceOf(info.chain, info.network, info.contract, PlayerPrefs.GetString("Account"), info.rpc);
+        // Convert int to string
+        string response = balance.ToString();
+        // Return response string
+        print($"RESPONSE: {response}");
+        return response;
+    }
+
+    /// ERC1155 TRANSACTIONS ///
+
+    public async Task<string> ERC1155_GetNfts(Transaction transaction, Contract contract = Contract.PolygonTestnet, int first = 500, int skip = 0)
+    {
+        print($"TRANSACTION: ERC1155_GetNfts - {transaction.ToString()}");
+        // Get stored contract information
+        ContractInfo info = new ContractInfo(contract);
+        // EVM.AllErc1155
+        string response = await EVM.AllErc1155(info.chain, info.network, PlayerPrefs.GetString("Account"), info.contract, first, skip);
+        // Return response string
+        print($"RESPONSE: {response}");
+        return response;
+    }
+
+    public async Task<string> ERC1155_GetURI(Transaction transaction, Contract contract, string tokenId)
+    {
+        print($"TRANSACTION: _ERC1155_GetURI - {transaction.ToString()}");
+        // Get stored contract information
+        ContractInfo info = new ContractInfo(contract);
+        // ERC1155.URI
+        string response = await ERC1155.URI(info.chain, info.network, info.contract, tokenId, info.rpc);
+        // Return response string
+        print($"RESPONSE: {response}");
+        return response;
+    }
+
+    public async Task<string> ERC1155_GetBalance(Transaction transaction, Contract contract, string tokenId)
+    {
+        print($"TRANSACTION: ERC1155_GetBalance - {transaction.ToString()}");
+        // Get stored contract information
+        ContractInfo info = new ContractInfo(contract);
+        // ERC1155.BalanceOf
+        System.Numerics.BigInteger balance = await ERC1155.BalanceOf(info.chain, info.network, info.contract, PlayerPrefs.GetString("Account"), tokenId, info.rpc);
         // Convert int to string
         string response = balance.ToString();
         // Return response string
