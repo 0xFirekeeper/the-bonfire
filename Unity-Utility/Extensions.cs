@@ -130,6 +130,11 @@ public static class Extensions
         return new Quaternion(Result.x, Result.y, Result.z, Result.w);
     }
 
+    public static bool IsAlmostEqualTo(this Quaternion quatA, Quaternion value, float acceptableRange)
+    {
+        return 1 - Mathf.Abs(Quaternion.Dot(quatA, value)) < acceptableRange;
+    }
+
     public static bool HasInternet()
     {
         return !(Application.internetReachability == NetworkReachability.NotReachable);
