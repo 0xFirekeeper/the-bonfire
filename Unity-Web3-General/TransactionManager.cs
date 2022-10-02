@@ -15,7 +15,11 @@ public enum Transaction
     CustomContract_createUser,
     ERC721_GetNfts,
     ERC721_GetUri,
-    ERC721_GetBalance,
+    ERC721_GetBalanceOf,
+    ERC1155_GetNfts,
+    ERC1155_GetURI,
+    ERC1155_GetBalanceOf,
+    ERC1155_GetBalanceOfBatch
 }
 
 // Event to use the response in-app
