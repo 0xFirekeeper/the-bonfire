@@ -19,7 +19,6 @@ public enum Transaction
     ERC1155_GetNfts,
     ERC1155_GetURI,
     ERC1155_GetBalanceOf,
-    ERC1155_GetBalanceOfBatch
 }
 
 // Event to use the response in-app
@@ -153,23 +152,4 @@ public class TransactionManager : MonoBehaviour
         print($"RESPONSE: {balance}");
         return balance;
     }
-
-    public async Task<List<BigInteger>> ERC1155_GetBalanceOfBatch(Transaction transaction, Contract contract, string[] tokenIds)
-    {
-        print($"TRANSACTION: ERC1155_GetBalance - {transaction.ToString()}");
-        // Get stored contract information
-        ContractInfo info = new ContractInfo(contract);
-        // Just one account for now, but could pass more
-        string currentAccount = PlayerPrefs.GetString("Account");
-        string[] accounts = { currentAccount };
-        // ERC1155.BalanceOf
-        List<BigInteger> balances = await ERC1155.BalanceOfBatch(info.chain, info.network, info.contract, accounts, tokenIds, info.rpc);
-        // Print response and return
-        print("RESPONSE: ");
-        foreach (var value in balances)
-            print(value + " ");
-
-        return balances;
-    }
-
 }
