@@ -5,7 +5,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System.Numerics;
 
 // Verified transactions that we will use within our app
@@ -85,7 +84,7 @@ public class TransactionManager : MonoBehaviour
         // Get stored contract information
         ContractInfo info = new ContractInfo(contract);
         // EVM.AllErc721
-        string response = await EVM.AllErc721(info.chain, info.network, PlayerPrefs.GetString("Account"), info.contract, first, skip);
+        string response = await EVM.AllErc721(info.chain, info.network, SimpleGameManager.Instance.Account, info.contract, first, skip);
         // Print response and return
         print($"RESPONSE: {response}");
         return response;
@@ -109,7 +108,7 @@ public class TransactionManager : MonoBehaviour
         // Get stored contract information
         ContractInfo info = new ContractInfo(contract);
         // ERC721.BalanceOf
-        int balance = await ERC721.BalanceOf(info.chain, info.network, info.contract, PlayerPrefs.GetString("Account"), info.rpc);
+        int balance = await ERC721.BalanceOf(info.chain, info.network, info.contract, SimpleGameManager.Instance.Account, info.rpc);
         // Print response and return
         print($"RESPONSE: {balance}");
         return balance;
@@ -123,7 +122,7 @@ public class TransactionManager : MonoBehaviour
         // Get stored contract information
         ContractInfo info = new ContractInfo(contract);
         // EVM.AllErc1155
-        string response = await EVM.AllErc1155(info.chain, info.network, PlayerPrefs.GetString("Account"), info.contract, first, skip);
+        string response = await EVM.AllErc1155(info.chain, info.network, SimpleGameManager.Instance.Account, info.contract, first, skip);
         // Print response and return
         print($"RESPONSE: {response}");
         return response;
@@ -143,11 +142,11 @@ public class TransactionManager : MonoBehaviour
 
     public async Task<BigInteger> ERC1155_GetBalanceOf(Transaction transaction, Contract contract, string tokenId)
     {
-        print($"TRANSACTION: ERC1155_GetBalance - {transaction.ToString()}");
+        print($"TRANSACTION: ERC1155_GetBalanceOf - {transaction.ToString()}");
         // Get stored contract information
         ContractInfo info = new ContractInfo(contract);
         // ERC1155.BalanceOf
-        BigInteger balance = await ERC1155.BalanceOf(info.chain, info.network, info.contract, PlayerPrefs.GetString("Account"), tokenId, info.rpc);
+        BigInteger balance = await ERC1155.BalanceOf(info.chain, info.network, info.contract, SimpleGameManager.Instance.Account, tokenId, info.rpc);
         // Print response and return
         print($"RESPONSE: {balance}");
         return balance;

@@ -2,10 +2,8 @@
 // Author: 0xFirekeeper
 // Description: WebGL Login Script
 
-using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 #if UNITY_WEBGL
 public class WebLogin : MonoBehaviour
@@ -36,24 +34,27 @@ public class WebLogin : MonoBehaviour
             await new WaitForSeconds(1f);
             account = ConnectAccount();
         };
-        // save account for next scene
-        PlayerPrefs.SetString("Account", account);
-        // reset login message
-        SetConnectAccount("");
-        // load next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        SetConnectAccount(""); // Reset login message
+        SimpleGameManager.Instance.Account = account; // Save account for next scene
+
+        OnLoggedIn();
     }
 
     public void OnSkip()
     {
-        // burner account for skipped sign in screen
 #if UNITY_EDITOR
-        PlayerPrefs.SetString("Account", ""); // you could add your test wallet address in here 
+        SimpleGameManager.Instance.Account = ""; // add test account for web3 features for possible editor web3 tests
 #else
-        PlayerPrefs.SetString("Account", "");
+        SimpleGameManager.Instance.Account = "";
 #endif
-        // move to next scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        OnLoggedIn();
+    }
+
+    void OnLoggedIn()
+    {
+        // Do something after logging in
     }
 }
 #endif

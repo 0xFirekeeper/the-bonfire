@@ -2,8 +2,6 @@
 // Author: 0xFirekeeper
 // Description: WebGL Logout Script
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,8 +11,8 @@ public class WebLogout : MonoBehaviour
     public void OnSignOut()
     {
         // Clear Account
-        PlayerPrefs.SetString("Account", "0x0000000000000000000000000000000000000001");
-        // go to login scene
+        SimpleGameManager.Instance.Account = "0x0000000000000000000000000000000000000001";
+        // Do Something
         SceneManager.LoadScene(0);
     }
 }

@@ -13,6 +13,20 @@ public enum SimpleGameState
 }
 public class SimpleGameManager : MonoBehaviour
 {
+    private string _account;
+    public string Account
+    {
+        get
+        {
+            return _account;
+        }
+        set
+        {
+            _account = value;
+            PlayerPrefs.SetString("Account", _account);
+        }
+    }
+
     private int _coins;
     public int Coins
     {
