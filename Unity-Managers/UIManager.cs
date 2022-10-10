@@ -5,14 +5,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 using RotaryHeart.Lib.SerializableDictionary;
-using UnityEngine.UI;
 using System;
-using TMPro;
 
 public enum PanelNames
 {
     MainMenuCanvas,
-    GameSceneCanvas
+    MainGameCanvas
 }
 
 [System.Serializable]
@@ -27,17 +25,12 @@ public class UIPanelAndSetup
 
 public class UIManager : MonoBehaviour
 {
+    [Header("UI PANEL OBJECTS AND EVENTS DICTIONARY")]
     public UIPanels UIPanelsDictionary;
 
     [Header("MAIN MENU CANVAS ITEMS")]
-    public Image vibrationImage;
-    public Image soundImage;
-    public Sprite onSprite;
-    public Sprite offSprite;
 
-    [Header("GAME CANVAS ITEMS")]
-    public TMP_Text coins;
-    public TMP_Text level;
+    [Header("MAIN GAME CANVAS ITEMS")]
 
     public static UIManager Instance;
 
@@ -54,40 +47,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void OnMainMenuSceneCanvasOpened()
+    public void OnMainMenuCanvasOpened()
     {
-        Debug.Log("Setting Up Main Menu Scene Canvas");
+        Debug.Log("Setting Up Main Menu Canvas");
 
-        vibrationImage.sprite = GameManager.Instance.VibrationOn ? onSprite : offSprite;
-        soundImage.sprite = GameManager.Instance.SoundOn ? onSprite : offSprite;
     }
 
-    public void OnGameSceneCanvasOpened()
+    public void OnMainGameCanvasOpened()
     {
-        Debug.Log("Setting Up Game Scene Canvas");
-
-        coins.text = GameManager.Instance.Coins.FormatNumber();
-        level.text = GameManager.Instance.Level.ToString("N2");
-    }
-
-    public void ToggleVibration()
-    {
-        GameManager.Instance.VibrationOn = !GameManager.Instance.VibrationOn;
-        vibrationImage.sprite = GameManager.Instance.VibrationOn ? onSprite : offSprite;
-    }
-    public void ToggleSound()
-    {
-        GameManager.Instance.SoundOn = !GameManager.Instance.SoundOn;
-        soundImage.sprite = GameManager.Instance.SoundOn ? onSprite : offSprite;
-    }
-
-    public void OpenPanel(string panel)
-    {
-        PanelNames panelName;
-        if (Enum.TryParse<PanelNames>(panel, out panelName))
-            OpenPanel(panelName);
-        else
-            Debug.LogWarning("Did not find panel: " + panel);
+        Debug.Log("Setting Up Main Game Canvas");
     }
 
     public void OpenPanel(PanelNames panelName, bool closeOtherPanels = false)
@@ -108,6 +76,15 @@ public class UIManager : MonoBehaviour
 
     }
 
+    public void OpenPanel(string panelString)
+    {
+        PanelNames panelName;
+        if (Enum.TryParse<PanelNames>(panelString, out panelName))
+            OpenPanel(panelName);
+        else
+            Debug.LogWarning("Did not find panel: " + panelString);
+    }
+
     public void ClosePanel(PanelNames panelName)
     {
         UIPanelAndSetup currentPanel;
@@ -118,6 +95,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ClosePanel(string panelString)
+    {
+        PanelNames panelName;
+        if (Enum.TryParse<PanelNames>(panelString, out panelName))
+            ClosePanel(panelName);
+        else
+            Debug.LogWarning("Did not find panel: " + panelString);
+    }
+
     void CloseAllPanels()
     {
         foreach (PanelNames panelName in UIPanelsDictionary.Keys)
@@ -125,6 +111,3 @@ public class UIManager : MonoBehaviour
     }
 
 }
-
-
-
