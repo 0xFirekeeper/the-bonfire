@@ -2,8 +2,6 @@
 // Author: 0xFirekeeper
 // Description: Simpler version of GameManager.cs for games with a small amount of scenes or no local saving required.
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum SimpleGameState
@@ -15,9 +13,35 @@ public enum SimpleGameState
 }
 public class SimpleGameManager : MonoBehaviour
 {
-    public int Coins { get; private set; }
-    public int Level { get; private set; }
-    private SimpleGameState gameState;
+    private int _coins;
+    public int Coins
+    {
+        get
+        {
+            return _coins;
+        }
+        set
+        {
+            _coins = value;
+            PlayerPrefs.SetInt("Coins", _coins);
+        }
+    }
+
+    private int _level;
+    public int Level
+    {
+        get
+        {
+            return _level;
+        }
+        set
+        {
+            _level = value;
+            PlayerPrefs.SetInt("Level", _level);
+        }
+    }
+
+    private SimpleGameState _gameState;
 
     public static SimpleGameManager Instance;
 
@@ -44,15 +68,15 @@ public class SimpleGameManager : MonoBehaviour
 
     public void SetGameState(SimpleGameState simpleGameState)
     {
-        switch (simpleGameState)
+        _gameState = simpleGameState;
+
+        switch (_gameState)
         {
             case (SimpleGameState.MainMenu):
-                UIManager.Instance.OpenPanel(PanelNames.MainMenuPanel, true);
-                CameraManager.Instance.MoveToView(CameraTransforms.View1);
+                UIManager.Instance.OpenPanel(PanelNames.MainMenuCanvas, true);
                 break;
             case (SimpleGameState.MainGame):
-                UIManager.Instance.OpenPanel(PanelNames.MainGamePanel, true);
-                CameraManager.Instance.MoveToView(CameraTransforms.View2);
+                UIManager.Instance.OpenPanel(PanelNames.MainGameCanvas, true);
                 break;
             case (SimpleGameState.Playing):
                 // Do something here. Activate controls, deal with panels etc.
@@ -62,5 +86,4 @@ public class SimpleGameManager : MonoBehaviour
                 break;
         }
     }
-
 }
